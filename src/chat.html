@@ -201,7 +201,7 @@
 				info.style.marginBottom = '4px';
 				info.style.textAlign = isMe ? 'right' : 'left';
 				info.textContent =
-					`${m.name.slice(-4)} -- ${new Date(m.created_at).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' })}`;
+					`${m.name} -- ${new Date(m.created_at).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' })}`;
 
 				// 气泡
 				const bubble = document.createElement('div');
