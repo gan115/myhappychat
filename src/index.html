@@ -26,8 +26,9 @@ async function login(e){
   e.preventDefault();
   const phone = phoneInput.value.trim();
   const pwd   = pwdInput.value.trim();
-  const list  = await fetch('users.json').then(r=>r.json());
-  const hit   = list.find(u=>u.phone===phone && u.pwd===CryptoJS.MD5(pwd).toString());
+  // const list  = await fetch('users.json').then(r=>r.json());
+  // const hit   = list.find(u=>u.phone===phone && u.pwd===CryptoJS.MD5(pwd).toString());
+  const hit   = USERS.find(u => u.phone === phone && u.pwd === pwd);
   if(hit){
     sessionStorage.setItem('chat_user',phone);
     location.href='chat.html';

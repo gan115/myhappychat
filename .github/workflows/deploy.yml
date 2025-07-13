@@ -1,0 +1,44 @@
+name: Build & Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 1️⃣ 把 users.json 注入到 login.html
+      - name: Inject users.json
+        run: |
+          node <<'EOF'
+          import fs from 'fs';
+          const users = JSON.parse(fs.readFileSync('src/users.json','utf8'));
+          let html = fs.readFileSync('src/login.html','utf8');
+          html = html.replace(
+            '/* USERS_PLACEHOLDER */',
+            `const USERS=${JSON.stringify(users)};`
+          );
+          fs.writeFileSync('src/login.html', html);
+          EOF
+
+      # 2️⃣ 纯静态，直接上传
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./src        # 把构建后的 src 发出去
+
+      - name: Deploy to Pages
+        uses: actions/deploy-pages@v4
