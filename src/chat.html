@@ -142,6 +142,7 @@
 			);
 			const today = new Date().toISOString().slice(0, 10);
 			const user = sessionStorage.getItem('chat_user');
+			const username = sessionStorage.getItem('chat_name');
 			if (!user) location.href = 'index.html';
 
 			/* ===== 拉取并监听消息 ===== */
@@ -201,7 +202,7 @@
 				info.style.marginBottom = '4px';
 				info.style.textAlign = isMe ? 'right' : 'left';
 				info.textContent =
-					`${m.name+""} -- ${new Date(m.created_at).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' })}`;
+					`${m.name} -- ${new Date(m.created_at).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' })}`;
 
 				// 气泡
 				const bubble = document.createElement('div');
@@ -227,7 +228,8 @@
 				db.from('messages').insert({
 						phone: user,
 						text,
-						date: today
+						date: today,
+						name: username
 					})
 					.select()
 					.then(response => {

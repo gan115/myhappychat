@@ -33,6 +33,7 @@ const hit   = USERS.find(u=>u.phone===phone && u.pwd===CryptoJS.MD5(pwd).toStrin
   //const hit   = USERS.find(u => u.phone === phone && u.pwd === pwd);
   if(hit){
     sessionStorage.setItem('chat_user',phone);
+    sessionStorage.setItem('chat_name', hit.name);
     location.href='chat.html';
   }else{
     err.textContent='账号或密码错误';
